@@ -1,4 +1,4 @@
-# Bash CLI
+# DRYSWG (alias 3swg)
 **A command line framework built using nothing but Bash and compatible with anything**
 
 Bash CLI was borne of the need to provide a common entrypoint into a range of scripts
@@ -9,6 +9,7 @@ and executable to be presented as a sub-command.
 ## Example
 
 ```sh
+<bash-cli main folder >/app/install.sh 3swg
 bash-cli install my-app
 bash-cli command create start
 my-app start
