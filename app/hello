@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-echo -e "Hello \033[36m${USER}\033[39m."

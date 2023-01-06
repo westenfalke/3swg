@@ -13,7 +13,8 @@ _common_setup() {
     # as those will point to the bats executable's location or the preprocessed file respectively
     PROJECT_ROOT="$( cd "$( dirname "$BATS_TEST_FILENAME" )/.." >/dev/null 2>&1 && pwd )"
     # make executables in src/ visible to PATH
-    PATH="$PROJECT_ROOT/src:$PATH"
+    #PATH="$PROJECT_ROOT/src:$PATH"
+    PATH="/workspaces/3swg:$PATH"
     BATS_BUILD_DIR='/tmp/bats'
     mkdir -p "${BATS_BUILD_DIR}"
 }

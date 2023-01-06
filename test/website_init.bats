@@ -7,10 +7,10 @@ setup() {
     ZERO_ELEMENTS='0'
     MODULE_TEST_DIR="${BATS_BUILD_DIR}/website.init.bats"
     ABSOLUT_PROJECT_DIR="${MODULE_TEST_DIR}/project_folder"
-
+    
     FIRST_RUN_FILE="${BATS_BUILD_DIR}/website_init.bats_first_run"
     if [[ ! -e "${FIRST_RUN_FILE}" ]]; then
-        run 3swg website init "${ABSOLUT_PROJECT_DIR}"
+        run website_init.sh "${ABSOLUT_PROJECT_DIR}"
         touch ${FIRST_RUN_FILE}
     fi
     source ${ABSOLUT_PROJECT_DIR}/project.sh
@@ -57,13 +57,13 @@ teardown() {
 }
 
 @test 'website init fails if \${PROJECT_DIR} exists' {
-    refute 3swg website init "${ABSOLUT_PROJECT_DIR}"
-    run 3swg website init "${ABSOLUT_PROJECT_DIR}"
+    refute website_init.sh "${ABSOLUT_PROJECT_DIR}"
+    run website_init.sh "${ABSOLUT_PROJECT_DIR}"
     assert_output --partial ' 21:'
 }
 
 @test 'website init fails wihout given \${PROJECT_DIR}' {
-    refute 3swg website init
-    run    3swg website init
+    refute website_init.sh
+    run    website_init.sh
     assert_output --partial ' 1:'
 }
