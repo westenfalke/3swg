@@ -4,15 +4,15 @@ setup() {
     _common_setup    
 
     EMPTY=''
-    MODULE_TEST_DIR='/tmp/bats/website.init.bats'
+    ZERO_ELEMENTS='0'
+    MODULE_TEST_DIR="${BATS_BUILD_DIR}/website.init.bats"
     ABSOLUT_PROJECT_DIR="${MODULE_TEST_DIR}/project_folder"
 
-    FIRST_RUN_FILE="/tmp/website_init.bats_first_run"
+    FIRST_RUN_FILE="${BATS_BUILD_DIR}/website_init.bats_first_run"
     if [[ ! -e "${FIRST_RUN_FILE}" ]]; then
         run 3swg website init "${ABSOLUT_PROJECT_DIR}"
         touch ${FIRST_RUN_FILE}
     fi
-    : remove ${FIRST_RUN_FILE} if setup has failed
     source ${ABSOLUT_PROJECT_DIR}/project.sh
 }
 
@@ -20,7 +20,31 @@ teardown() {
     : Not Yet
 }
 
+
+@test 'The amount of elements in \${INIT_MODULES} is > 0' {
+    tap_print_key_value INIT_MODULES
+    assert [ "${#INIT_MODULES[@]}" -gt "${ZERO_ELEMENTS}" ]
+}
+
+@test 'The first module within \${INIT_MODULES} is the \${CORE_MODULE}' {
+    tap_print_key_value CORE_MODULE
+    assert [  "T" ]
+    assert [ "${INIT_MODULES[0]}" == "${CORE_MODULE}" ]
+}
+
+@test 'All module within \${INIT_MODULES} are installed' {
+    assert [  "T" ]
+    run echo $( 
+    for m in "${INIT_MODULES[@]}"; do
+        echo -n "${m} "
+    done
+    )
+    assert_output --partial 'CORE'
+}
+
+
 @test '\${PROJECT_DIR} is defined' {
+    tap_print_key_value PROJECT_DIR
     assert [ ! -z "${PROJECT_DIR}" ]
 }
 
@@ -42,9 +66,4 @@ teardown() {
     refute 3swg website init
     run    3swg website init
     assert_output --partial ' 1:'
-}
-
-@test 'clean up' {
-    rm -rfv ${FIRST_RUN_FILE}
-    rm -vrf ${ABSOLUT_PROJECT_DIR}
 }
