@@ -1,36 +1,30 @@
 #!/usr/bin/env bash
-declare -r _ORIG_OPTIONS_=${-}
-set -e
-[[ -z "${1}" ]] && echo "$(basename ${0}): PROJECT_DIR: Missing Parameter" >&2
-set -u
-declare -r _PROJECT_DIR_="${1}"
-declare -r _PROJECT_FILE_NAME_='project.sh'
-declare -r _PROJECT_CONFIGURATION_="${_PROJECT_DIR_}/${_PROJECT_FILE_NAME_}"
-declare -r _CORE_MODULE_='CORE'
-declare -r _MODULES_DIR_NAME_='MODULES'
-declare -r _MODULES_DIR_="${_PROJECT_DIR_}/${_MODULES_DIR_NAME_}"
+source ./exit_with.sh
+source ./project_configuration.sh
 
-if [[ -d ${_PROJECT_DIR_} ]]; then
-    declare -r _IS_A_DIRECTORY_='21'
-    echo "$(basename ${0}): already exist '${_PROJECT_DIR_}': Is a directory" >&2
-    exit ${_IS_A_DIRECTORY_}
-else
-    mkdir -p ${_PROJECT_DIR_}
+if [[ "${#}" == '0' ]]; then
+    declare -ri argument_missing='1'
+    exit_with "" 'PROJECT_DIR not specified' '' 'Missing argument' "${argument_missing}"
 fi
 
-(
-cat << PROJECT_CONFIGURATION 
-#!/usr/bin/env bash
-PROJECT_DIR="${_PROJECT_DIR_}"
-PROJECT_FILE_NAME="${_PROJECT_FILE_NAME_}"
-PROJECT_CONFIGURATION="${_PROJECT_CONFIGURATION_}"
-MODULES_DIR_NAME="${_MODULES_DIR_NAME_}"
-MODULES_DIR="${_MODULES_DIR_}"
-CORE_MODULE="${_CORE_MODULE_}"
-INIT_MODULES="${_CORE_MODULE_}"
+source <(project_configuration "${1}") 
 
-PROJECT_CONFIGURATION
-) >  ${_PROJECT_CONFIGURATION_}
+if [[ "${PROJECT_DIR}" == ''  ]]; then
+    declare -ri argument_empty='1'
+    exit_with "" 'PROJECT_DIR not specified' '' 'Empty argument' "${argument_empty}"
+    exit ${argument_empty}
+elif [[ -d "${PROJECT_DIR}" ]]; then
+    declare -ri file_exists='1'
+    exit_with "" 'cannot create directory' "${PROJECT_DIR}" 'File exists' "${file_exists}"
+else
+    mkdir -p "${PROJECT_DIR}"
+    project_configuration "${PROJECT_DIR}" > "${PROJECT_CONFIGURATION}"
+fi
+
+#"${PROJECT_CONFIGURATION}" 
+#echo $(source ./project_configuration.sh; project_configuration '/tmp/foo')
 
 
-set ${_ORIG_OPTIONS_}
+# mkdir  "${MODULES_DIR}"
+#"${CORE_MODULE}"
+#"${CORE_MODULE}"
