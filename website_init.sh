@@ -20,11 +20,3 @@ else
     mkdir -p "${PROJECT_DIR}"
     project_configuration "${PROJECT_DIR}" > "${PROJECT_CONFIGURATION}"
 fi
-
-#"${PROJECT_CONFIGURATION}" 
-#echo $(source ./project_configuration.sh; project_configuration '/tmp/foo')
-
-
-# mkdir  "${MODULES_DIR}"
-#"${CORE_MODULE}"
-#"${CORE_MODULE}"
