@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 declare -r _ORIG_OPTIONS_=${-}
 set -e
-[[ -z "${1}" ]] && echo -e "Missing Parameter: PROJECT_CONFIGURATION" >&2
+if [[ -z "${1}" ]]; then 
+     echo "$(basename ${0}): PROJECT_CONFIGURATION: Missing Parameter" >&2
+fi
 set -u
-#source "${PROJECT_CONFIGURATION}"
 source "${1}"
 
 ## if [[ -d ${_PROJECT_DIR_} ]]; then

@@ -59,11 +59,27 @@ teardown() {
 @test 'website init fails if \${PROJECT_DIR} exists' {
     refute website_init.sh "${ABSOLUT_PROJECT_DIR}"
     run website_init.sh "${ABSOLUT_PROJECT_DIR}"
-    assert_output --partial ' 21:'
+    assert_output --partial ': Is a directory'
 }
 
 @test 'website init fails wihout given \${PROJECT_DIR}' {
     refute website_init.sh
     run    website_init.sh
-    assert_output --partial ' 1:'
+    assert_output --partial 'unbound variable'
 }
+
+@test 'website init core fails wihout given \${PROJECT_CONFIGURATION}' {
+    refute website_init_core.sh
+    run    website_init_core.sh
+    assert_output --partial 'PROJECT_CONFIGURATION'
+}
+
+@test 'website init core fails \${PROJECT_CONFIGURATION} does not exist' {
+    project_configuration_does_not_exist=$(mktemp --dry-run)
+    refute website_init_core.sh "${project_configuration_does_not_exist}"
+    run    website_init_core.sh "${project_configuration_does_not_exist}"
+    assert_output --partial ': No such file or directory'
+}
+
+    : 'No such file or directory'
+

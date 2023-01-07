@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 declare -r _ORIG_OPTIONS_=${-}
 set -e
-[[ -z "${1}" ]] && echo -e "Missing Parameter: PROJECT_DIR" >&2
+[[ -z "${1}" ]] && echo "$(basename ${0}): PROJECT_DIR: Missing Parameter" >&2
 set -u
 declare -r _PROJECT_DIR_="${1}"
 declare -r _PROJECT_FILE_NAME_='project.sh'
@@ -12,7 +12,7 @@ declare -r _MODULES_DIR_="${_PROJECT_DIR_}/${_MODULES_DIR_NAME_}"
 
 if [[ -d ${_PROJECT_DIR_} ]]; then
     declare -r _IS_A_DIRECTORY_='21'
-    echo "Is a directory: ${_IS_A_DIRECTORY_}:'${_PROJECT_DIR_}'" >&2
+    echo "$(basename ${0}): already exist '${_PROJECT_DIR_}': Is a directory" >&2
     exit ${_IS_A_DIRECTORY_}
 else
     mkdir -p ${_PROJECT_DIR_}
