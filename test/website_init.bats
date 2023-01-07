@@ -20,7 +20,6 @@ teardown() {
     : Not Yet
 }
 
-
 @test 'The amount of elements in \${INIT_MODULES} is > 0' {
     tap_print_key_value INIT_MODULES
     assert [ "${#INIT_MODULES[@]}" -gt "${ZERO_ELEMENTS}" ]
@@ -41,7 +40,6 @@ teardown() {
     )
     assert_output --partial 'CORE'
 }
-
 
 @test '\${PROJECT_DIR} is defined' {
     tap_print_key_value PROJECT_DIR
