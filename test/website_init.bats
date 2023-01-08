@@ -7,13 +7,15 @@ setup() {
     ZERO_ELEMENTS='0'
     MODULE_TEST_DIR="${BATS_BUILD_DIR}/website.init.bats"
     ABSOLUT_PROJECT_DIR="${MODULE_TEST_DIR}/project_folder"
-    
     FIRST_RUN_FILE="${BATS_BUILD_DIR}/website_init.bats_first_run"
+    
+    source <(source base_configuration.sh;base_configuration "${ABSOLUT_PROJECT_DIR}")
     if [[ ! -e "${FIRST_RUN_FILE}" ]]; then
-        run website_init.sh "${ABSOLUT_PROJECT_DIR}"
+        run website_init.sh "${PROJECT_DIR}"
         touch ${FIRST_RUN_FILE}
     fi
-    source ${ABSOLUT_PROJECT_DIR}/project.sh
+    source "${CONFIGURATION}"
+
 }
 
 teardown() {
@@ -23,22 +25,6 @@ teardown() {
 @test 'The amount of elements in \${INIT_MODULES} is > 0' {
     tap_print_key_value INIT_MODULES
     assert [ "${#INIT_MODULES[@]}" -gt "${ZERO_ELEMENTS}" ]
-}
-
-@test 'The first module within \${INIT_MODULES} is the \${CORE_MODULE}' {
-    tap_print_key_value CORE_MODULE
-    assert [  "T" ]
-    assert [ "${INIT_MODULES[0]}" == "${CORE_MODULE}" ]
-}
-
-@test 'All module within \${INIT_MODULES} are installed' {
-    assert [  "T" ]
-    run echo $( 
-    for m in "${INIT_MODULES[@]}"; do
-        echo -n "${m} "
-    done
-    )
-    assert_output --partial 'CORE'
 }
 
 @test '\${PROJECT_DIR} is defined' {
@@ -66,3 +52,17 @@ teardown() {
     assert_output --partial 'PROJECT_DIR not specified'
 }
 
+@test 'The first module within \${INIT_MODULES} is the \${CORE_MODULE}' {
+    tap_print_key_value CORE_MODULE
+    assert [  "T" ]
+    assert [ "${INIT_MODULES[0]}" == "${CORE_MODULE}" ]
+}
+
+@test 'All module within \${INIT_MODULES} are installed' {
+    assert [  "T" ]
+    tap_print_key_value MODULES_DIR
+    for module in "${INIT_MODULES[@]}"; do
+        tap_print_key_value module
+        assert [ -d "${MODULES_DIR}/${module}" ]
+    done
+}
