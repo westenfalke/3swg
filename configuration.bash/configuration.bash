@@ -1,0 +1,9 @@
+PROJECT_DIR="configuration.bash"
+CONFIGURATION_FILE_NAME="configuration.bash"
+CONFIGURATION="configuration.bash/configuration.bash"
+MODULES_CONFIGURATION_FILE_NAME=""
+CORE_MODULE="core"
+INIT_MODULES=(core)
+MODULES_DIR_NAME="modules"
+MODULES_DIR="configuration.bash/modules"
+MODULES_CONFIGURATION="configuration.bash/modules/module_configuration.bash"

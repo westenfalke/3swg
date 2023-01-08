@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 setup() {
     load 'test_helper/common-setup'
-    _common_setup    
+    _common_setup
 
     EMPTY=''
     ZERO_ELEMENTS='0'
@@ -9,13 +9,13 @@ setup() {
     ABSOLUT_PROJECT_DIR="${MODULE_TEST_DIR}/project_folder"
     FIRST_RUN_FILE="${BATS_BUILD_DIR}/website_init.bats_first_run"
     
-    source <(source base_configuration.sh;base_configuration "${ABSOLUT_PROJECT_DIR}")
     if [[ ! -e "${FIRST_RUN_FILE}" ]]; then
-        run website_init.sh "${PROJECT_DIR}"
+        source <(grep PROJECT_DIR <(source base_configuration.bash;base_configuration "${ABSOLUT_PROJECT_DIR}"))
+        run website_init.sh ${PROJECT_DIR}
         touch ${FIRST_RUN_FILE}
     fi
+    source <(grep CONFIGURATION <(source base_configuration.bash;base_configuration "${ABSOLUT_PROJECT_DIR}"))
     source "${CONFIGURATION}"
-
 }
 
 teardown() {
@@ -64,5 +64,6 @@ teardown() {
     for module in "${INIT_MODULES[@]}"; do
         tap_print_key_value module
         assert [ -d "${MODULES_DIR}/${module}" ]
+        assert [ -e "${MODULES_DIR}/${module}/" ]
     done
 }

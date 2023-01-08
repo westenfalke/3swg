@@ -1,5 +1,5 @@
 source ./exit_with.sh
-module_core() {
+module_install() {
 if [[ "${#}" == '0' ]]; then
     local -ri argument_missing='1'
     exit_with "" 'CONFIGURATION not specified' '' 'Missing argument' "${argument_missing}"

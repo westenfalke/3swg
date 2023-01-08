@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 source ./exit_with.sh
-source ./base_configuration.sh
-source ./module_configuration.sh
-source ./module_core.sh
+source ./base_configuration.bash
+source ./module_configuration.bash
+source ./module_install.bash
 
 if [[ "${#}" == '0' ]]; then
     declare -ri argument_missing='1'
@@ -22,7 +22,7 @@ else
     mkdir -p "${PROJECT_DIR}"
     base_configuration "${PROJECT_DIR}" >> "${CONFIGURATION}"
     module_configuration "${PROJECT_DIR}" >> "${CONFIGURATION}"
-    module_core "${CONFIGURATION}"
+    module_install "${CONFIGURATION}"
 fi
 
 if [[ "${MODULES_DIR}" == ''  ]]; then

@@ -8,18 +8,15 @@ elif [[ "${1}" == ''  ]]; then
     exit_with "" 'PROJECT_DIR not specified' '' 'Empty argument' "${argument_empty}" 
 else 
     local -r PROJECT_DIR="${1}"
-    local -r PROJECT_FILE_NAME='configuration.txt'
-    local -r CONFIGURATION="${PROJECT_DIR}/${PROJECT_FILE_NAME}"
-    local -r CORE_MODULE='CORE'
-    local -r MODULES_DIR_NAME='MODULES'
-    local -r MODULES_DIR="${PROJECT_DIR}/${MODULES_DIR_NAME}"
+    local -r CONFIGURATION_FILE_NAME='configuration.bash'
+    local -r CONFIGURATION="${PROJECT_DIR}/${CONFIGURATION_FILE_NAME}"
 (
 cat << BASE_CONFIGURATION
 PROJECT_DIR="${PROJECT_DIR}"
-PROJECT_FILE_NAME="${PROJECT_FILE_NAME}"
+CONFIGURATION_FILE_NAME="${CONFIGURATION_FILE_NAME}"
 CONFIGURATION="${CONFIGURATION}"
+MODULES_CONFIGURATION_FILE_NAME="${MODULES_CONFIGURATION_FILE_NAME}"
 BASE_CONFIGURATION
 ) 
 fi
 }
-
